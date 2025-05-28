@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- 其他head内容 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+.lecture-fee-container {
+  font-family: Arial, sans-serif;
+  background: white;
+  padding: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.total-fee {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.total-fee .amount {
+  font-weight: bold;
+  color: #f56c6c;
+}
+
+.fee-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.fee-table th, .fee-table td {
+  border: 1px solid #ebeef5;
+  padding: 12px 10px;
+  text-align: left;
+}
+.fee-table th {
+  background-color: #f5f7fa;
+  color: #909399;
+  font-weight: 500;
+}
+
+.speaker-info .speaker-name {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.tag {
+  display: inline-block;
+  padding: 0 5px;
+  font-size: 12px;
+  border-radius: 4px;
+  color: white;
+}
+.tag.tl {
+  background-color: #e6a23c;
+}
+.tag.t1 {
+  background-color: #409eff;
+}
+.hospital {
+  color: #909399;
+}
+
+.service-content div {
+  margin-bottom: 8px;
+}
+.service-content div:last-child {
+  margin-bottom: 0;
+}
+
+.lecture-content .product-indication {
+  margin-bottom: 10px;
+}
+.product-link {
+  color: #409eff;
+  text-decoration: none;
+}
+.product-link:hover {
+  text-decoration: underline;
+}
+.lecture-material {
+  margin-top: 10px;
+  line-height: 1.5;
+}
+.valid-date {
+  color: #f59a23;
+}
+
+.action-column {
+  text-align: center;
+}
+.view-btn {
+  background: none;
+  border: none;
+  color: #409eff;
+  cursor: pointer;
+  padding: 0;
+}
+.view-btn:hover {
+  color: #66b1ff;
+}
+
+.action-buttons {
+  margin-top: 20px;
+  text-align: left;
+}
+.edit-btn, .submit-btn {
+  padding: 8px 15px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.edit-btn {
+  background: white;
+  border: 1px solid #dcdfe6;
+  color: #606266;
+}
+.submit-btn {
+  background: #409eff;
+  border: 1px solid #409eff;
+  color: white;
+}
+
+/* 状态列样式 - 严格按照图片调整 */
+.status-flow {
+  padding: 8px 0;
+}
+
+.el-steps {
+  position: relative;
+}
+
+.el-steps--vertical {
+  display: flex;
+  flex-direction: column;
+}
+
+.el-step {
+  position: relative;
+  display: flex;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.el-step:not(:last-child) .el-step__line {
+  height: 24px; /* 精确匹配圆圈间距 */
+  bottom: -24px; /* 从圆心向下延伸 */
+}
+
+.el-step:last-child {
+  margin-bottom: 0;
+}
+
+.el-step__head {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 24px;
+  margin-right: 12px;
+   margin-top: 6px;
+}
+
+.el-step__line {
+  position: absolute;
+  left: 50%;
+  top: 24px;       /* 从圆心下方开始 */
+  width: 1px;
+  height: calc(100% - 24px); /* 动态填充剩余空间 */
+  background: #C0C4CC;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+.el-step__icon {
+  position: relative;
+  z-index: 1;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.el-step__icon.is-text {
+  font-size: 12px;
+}
+.el-step__line_finish {
+  position: absolute;
+  left: 50%;
+  top: 24px;       /* 从圆心下方开始 */
+  width: 2px;
+  height: calc(100% - 24px); /* 动态填充剩余空间 */
+  background: #409eff;
+  transform: translateX(-50%);
+  z-index: 0;
+}
+
+
+/* 已完成状态 */
+.is-finish .el-step__icon {
+  position: relative;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #409eff;
+}
+
+
+.is-finish .el-step__icon::before {
+  content: "\f00c";
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  color: #409EFF;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 待处理状态 */
+.is-wait .el-step__icon {
+  position: relative;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #C0C4CC; 
+}
+
+.el-step:first-child .el-step__line {
+  top: 16px;       /* 从蓝色圆圈底部开始 */
+  height: calc(120% ); /* 减去顶部间距 */
+}
+
+.el-step:nth-child(2) .el-step__line {
+  top: 16px;        /* 从中间圆圈中心开始 */
+  height: calc(120% ); /* 减去顶部间距 */
+}
+
+.el-step:first-child .el-step__line_finish {
+  top: 16px;       /* 从蓝色圆圈底部开始 */
+  height: calc(120% ); /* 减去顶部间距 */
+}
+
+.el-step:nth-child(2) .el-step__line_finish {
+  top: 16px;        /* 从中间圆圈中心开始 */
+  height: calc(120% ); /* 减去顶部间距 */
+}
+
+.el-step__main {
+  flex: 1;
+  padding-bottom: 4px;
+}
+
+.el-step__description {
+  font-size: 14px;
+}
+
+.step-description {
+  width: 100%;
+}
+
+.el-container {
+  display: flex;
+}
+
+.el-aside {
+  width: 100px;
+  font-size: 15px;
+}
+
+.el-main {
+  flex: 1;
+  padding: 0 10px 10px;
+  min-height: 30px;
+}
+
+.content-list {
+  font-size: 14px;
+}
+
+.content-list a {
+  color: #409eff;
+  text-decoration: none;
+}
+
+.content-list a:hover {
+  text-decoration: underline;
+}
+
+.content-list span {
+  color: #909399;
+  font-size: 12px;
+}
+
+.content-list p {
+  margin: 0;
+  color: #909399;
+}
+</style>
+</head>
+<body>
+  <div class="lecture-fee-container">
+  <!-- 顶部总金额显示 -->
+  <div class="total-fee">
+    <span>讲课费总金额：</span>
+    <span class="amount">￥133.20</span>
+  </div>
+
+  <!-- 表格区域 -->
+  <div class="fee-table-container">
+    <table class="fee-table">
+      <thead>
+        <tr>
+          <th width="40px"></th>
+          <th width="170px">讲者</th>
+          <th width="240px">本次服务内容</th>
+          <th width="230px">讲课内容</th>
+          <th width="310px">状态</th>
+          <th width="70px">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <!-- 选择框列 -->
+          <td>
+            <input type="checkbox">
+          </td>
+          
+          <!-- 讲者信息列 -->
+          <td class="speaker-info">
+            <div class="speaker-name">胡万宁 <span class="tag tl">TL</span> <span class="tag t1">T1</span></div>
+            <div class="hospital">京溪南方医院 - 急诊科</div>
+          </td>
+          
+          <!-- 服务内容列 -->
+          <td class="service-content">
+            <div>服务日期：2025-04-02 08:00</div>
+            <div>服务类型：讲者</div>
+            <div>讲课费：￥111</div>
+            <div>含税（参考）：￥133.20</div>
+            <div>Cost Center：5200430</div>
+            <div>负责人：侯伟伟</div>
+            <div>备注：</div>
+          </td>
+          
+          <!-- 讲课内容列 -->
+          <td class="lecture-content">
+            <div class="product-indication">
+              演讲产品适应症：
+              <a href="#" class="product-link">Verzenios(唯择)<span>-关联3条适应症</span></a>
+            </div>
+            <div>关键信息/演讲主题：11</div>
+            <div class="lecture-material">
+              讲课材料：【TZP专题会】单构双靶GIP/GLP-1单分子双受体激动剂—替尔泊肽的创新机制<br>
+              （PP-TR-CN-0087）<br>
+              <span class="valid-date">有效至：2026-05-28</span>
+            </div>
+            <div>是否按计划出席会议并提供服务：是</div>
+            <div>是否有效引导讨论及总结会议：是</div>
+          </td>
+          
+          <!-- 状态列 -->
+          <td class="status-column">
+            <div class="status-flow">
+              <div class="el-steps el-steps--vertical">
+                <!-- 第一步：已完成 -->
+                <div class="el-step is-vertical is-finish">
+                  <div class="el-step__head">
+                    
+                    <div class="el-step__icon is-text"></div>
+                    <div class="el-step__line"></div>
+                  </div>
+                  <div class="el-step__main">
+                    <div class="el-step__description">
+                      <div class="step-description">
+                        <section class="el-container">
+                          <aside class="el-aside">
+                            <div class="title">邀请确认书/服务结算单状态</div>
+                          </aside>
+                          <main class="el-main">
+                            <div class="content-list">
+                              <div>
+                                <a href="#" target="_blank">邀请确认书.pdf</a>
+                              </div>
+                              <div>
+                                <span>2022-08-27</span>
+                              </div>
+                            </div>
+                          </main>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 第二步：待处理 -->
+                <div class="el-step is-vertical is-wait">
+                  <div class="el-step__head">
+                    
+                    <div class="el-step__icon is-text"></div>
+                    <div class="el-step__line"></div>
+                  </div>
+                  <div class="el-step__main">
+                    <div class="el-step__description">
+                      <div class="step-description">
+                        <section class="el-container">
+                          <aside class="el-aside">
+                            <div class="title">结算审批</div>
+                          </aside>
+                          <main class="el-main">
+                            <div class="content-list">
+                              <p>待提交</p>
+                            </div>
+                          </main>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 第三步：待处理 -->
+                <div class="el-step is-vertical is-wait">
+                  <div class="el-step__head">
+                    
+                    <div class="el-step__icon is-text"></div>
+                  </div>
+                  <div class="el-step__main">
+                    <div class="el-step__description">
+                      <div class="step-description">
+                        <section class="el-container">
+                          <aside class="el-aside">
+                            <div class="title">付费状态</div>
+                          </aside>
+                          <main class="el-main">
+                            <div class="content-list">
+                              <p>待付款</p>
+                            </div>
+                          </main>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          
+          <!-- 操作列 -->
+          <td class="action-column">
+            <button class="view-btn">查看</button>
+          </td>
+        </tr>
+      </tbody>
+      
+      <tbody>
+        <tr>
+          <!-- 选择框列 -->
+          <td>
+            <input type="checkbox">
+          </td>
+          
+          <!-- 讲者信息列 -->
+          <td class="speaker-info">
+            <div class="speaker-name">张三 <span class="tag tl">TL</span> <span class="tag t1">T1</span></div>
+            <div class="hospital">京溪南方医院 - 急诊科</div>
+          </td>
+          
+          <!-- 服务内容列 -->
+          <td class="service-content">
+            <div>服务日期：2025-04-02 08:00</div>
+            <div>服务类型：讲者</div>
+            <div>讲课费：￥0</div>
+            <div>含税（参考）：￥0.00</div>
+            <div>Cost Center：5200430</div>
+            <div>负责人：侯伟伟</div>
+            <div>备注：</div>
+          </td>
+          
+          <!-- 讲课内容列 -->
+          <td class="lecture-content">
+            <div class="product-indication">
+              演讲产品适应症：
+              <a href="#" class="product-link">Verzenios(唯择)<span>-关联3条适应症</span></a>
+            </div>
+            <div>关键信息/演讲主题：11</div>
+            <div class="lecture-material">
+              讲课材料：【TZP专题会】单构双靶GIP/GLP-1单分子双受体激动剂—替尔泊肽的创新机制<br>
+              （PP-TR-CN-0087）<br>
+              <span class="valid-date">有效至：2026-05-28</span>
+            </div>
+            <div>是否按计划出席会议并提供服务：否</div>
+            <div>是否有效引导讨论及总结会议：否</div>
+          </td>
+          
+          <!-- 状态列 -->
+          <td class="status-column">
+            <div class="status-flow">
+              <div class="el-steps el-steps--vertical">
+                <!-- 第一步：已完成 -->
+                <div class="el-step is-vertical is-finish">
+                  <div class="el-step__head">
+                    
+                    <div class="el-step__icon is-text"></div>
+                    <div class="el-step__line_finish "></div>
+                  </div>
+                  <div class="el-step__main">
+                    <div class="el-step__description">
+                      <div class="step-description">
+                        <section class="el-container">
+                          <aside class="el-aside">
+                            <div class="title">邀请确认书/服务结算单状态</div>
+                          </aside>
+                          <main class="el-main">
+                            <div class="content-list">
+                              <div>
+                                <a href="#" target="_blank">邀请确认书.pdf</a>
+                              </div>
+                              <div>
+                                <span>2022-08-27</span>
+                              </div>
+                            </div>
+                          </main>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 第二步：待处理 -->
+                <div class="el-step is-vertical is-finish">
+                  <div class="el-step__head">
+                    
+                    <div class="el-step__icon is-text"></div>
+                    <div class="el-step__line_finish "></div>
+                  </div>
+                  <div class="el-step__main">
+                    <div class="el-step__description">
+                      <div class="step-description">
+                        <section class="el-container">
+                          <aside class="el-aside">
+                            <div class="title">结算审批</div>
+                          </aside>
+                          <main class="el-main">
+                            <div class="content-list">
+                              <p>讲课费0元，无需审批</p>
+                            </div>
+                          </main>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- 第三步：待处理 -->
+                <div class="el-step is-vertical is-finish">
+                  <div class="el-step__head">
+                    
+                    <div class="el-step__icon is-text"></div>
+                  </div>
+                  <div class="el-step__main">
+                    <div class="el-step__description">
+                      <div class="step-description">
+                        <section class="el-container">
+                          <aside class="el-aside">
+                            <div class="title">付费状态</div>
+                          </aside>
+                          <main class="el-main">
+                            <div class="content-list">
+                              <p>讲课费0元，无需付款</p>
+                            </div>
+                          </main>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+          
+          <!-- 操作列 -->
+          <td class="action-column">
+            <button class="view-btn">查看</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+
+  <!-- 底部按钮 -->
+  <div class="action-buttons">
+    <button class="edit-btn">编辑讲者名单</button>
+    <button class="submit-btn">提交审批</button>
+  </div>
+</div>
+</body>
+</html>
+
+
+
+
